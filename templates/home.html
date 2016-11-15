@@ -1,9 +1,7 @@
 {% extends "base.html" %}
-
-
-{% block js %}
-{% endblock %}
-
-
-{% block main %}
+{% block title %}{{ super() }}Arara{% endblock %}
+{% block content %}
+    <div class="{{ name }}-container">
+        <p>An API testing site</p>
+    </div>
 {% endblock %}

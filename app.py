@@ -1,62 +1,78 @@
-"""
-Flask Documentation:     http://flask.pocoo.org/docs/
-Jinja2 Documentation:    http://jinja.pocoo.org/2/documentation/
-Werkzeug Documentation:  http://werkzeug.pocoo.org/documentation/
+from flask import Flask, request, render_template
 
-This file creates your application.
-"""
 
-import os
-from flask import Flask, render_template, request, redirect, url_for
+# MARK: app config
 
 app = Flask(__name__)
 
-app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'this_should_be_configured')
+# END MARK: app config
 
 
-###
-# Routing for your application.
-###
 
-@app.route('/')
+
+# MARK: define end points
+
+@app.route("/")
 def home():
-    """Render website's home page."""
-    return render_template('home.html')
+    return render_template("home.html", name="home")
+
+@app.route("/puppies", methods = ['GET', 'POST'])
+def puppiesFunction():
+
+  message=None
+
+  if request.method == 'GET':
+    message = getAllPuppies()
+  elif request.method == 'POST':
+    message = makeANewPuppy()
+
+  return render_template("puppies.html", message=message)
 
 
-@app.route('/about/')
-def about():
-    """Render the website's about page."""
-    return render_template('about.html')
+@app.route("/puppies/<int:id>", methods = ['GET', 'PUT', 'DELETE'])
+def puppiesFunctionId(id):
+    if request.method == 'GET':
+        return getPuppy(id)
+    if request.method == 'PUT':
+        return updatePuppy(id)
+    elif request.method == 'DELETE':
+        return deletePuppy(id) 
+
+# END MARK: define end points
 
 
-###
-# The functions below should be applicable to all Flask apps.
-###
-
-@app.route('/<file_name>.txt')
-def send_text_file(file_name):
-    """Send your static text file."""
-    file_dot_text = file_name + '.txt'
-    return app.send_static_file(file_dot_text)
 
 
-@app.after_request
-def add_header(response):
-    """
-    Add headers to both force latest IE rendering engine or Chrome Frame,
-    and also to cache the rendered page for 10 minutes.
-    """
-    response.headers['X-UA-Compatible'] = 'IE=Edge,chrome=1'
-    response.headers['Cache-Control'] = 'public, max-age=600'
-    return response
 
 
-@app.errorhandler(404)
-def page_not_found(error):
-    """Custom 404 page."""
-    return render_template('404.html'), 404
+# MARK: get, make, put, delete method
+
+def getAllPuppies():
+    return "Getting All the puppies!"
+  
+def makeANewPuppy():
+    return "Creating A New Puppy!"
+
+def getPuppy(id):
+  return "Getting Puppy with id %s" % id
+  
+def updatePuppy(id):
+    return "Updating a Puppy with id %s" % id
+
+def deletePuppy(id):
+    return "Removing Puppy with id %s" % id
+
+# END MARK: get, make, put, delete method
 
 
-if __name__ == '__main__':
+
+
+
+
+
+# MARK: launch options
+
+if __name__ == "__main__":
     app.run(debug=True)
+
+# END MARK: launch options
