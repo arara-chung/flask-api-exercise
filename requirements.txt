@@ -16,3 +16,14 @@ mock==2.0.0
 # ----------------------
 gevent==1.1.2
 gunicorn==19.6.0
+
+
+
+# ----------------------
+# UnKnown
+# ----------------------
+itsdangerous
+Jinja2
+MarkupSafe
+Werkzeug
+wheel
