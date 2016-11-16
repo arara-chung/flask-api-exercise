@@ -1,16 +1,21 @@
 from flask import Flask, request, render_template
 
 
-# MARK: app config
+# ----------------------
+# app configs
+# ----------------------
 
 app = Flask(__name__)
 
-# END MARK: app config
 
 
 
 
-# MARK: define end points
+
+
+# ----------------------
+# end points
+# ----------------------
 
 @app.route("/")
 def home():
@@ -38,14 +43,14 @@ def puppiesFunctionId(id):
     elif request.method == 'DELETE':
         return deletePuppy(id) 
 
-# END MARK: define end points
 
 
 
 
 
-
-# MARK: get, make, put, delete method
+# ----------------------
+# get, make, put, delete methods
+# ----------------------
 
 def getAllPuppies():
     return "Getting All the puppies!"
@@ -62,17 +67,21 @@ def updatePuppy(id):
 def deletePuppy(id):
     return "Removing Puppy with id %s" % id
 
-# END MARK: get, make, put, delete method
 
 
 
 
-
-
-
-# MARK: launch options
+# ----------------------
+# launch options
+# ----------------------
 
 if __name__ == "__main__":
     app.run(debug=True)
 
-# END MARK: launch options
+
+
+
+
+
+
+
