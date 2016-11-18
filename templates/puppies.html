@@ -1,13 +1,168 @@
 {% extends "base.html" %}
+
+
 {% block title %}{{ super() }}Arara{% endblock %}
+
+
+{% block head_script %}
+<script type=text/javascript>
+  // get the root path on server
+  $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+</script>
+<script type=text/javascript>
+  $(function(){
+
+    // search all
+    $("#search-all-form").submit(function(){
+      $.getJSON({
+        type: 'GET',
+        url: $SCRIPT_ROOT + "/api/puppies",
+        data: {},
+        success: function(data){
+
+          //console.log(data.puppies[0])
+          $("#result").text("");
+
+          $.each(data.puppies, function(index, puppy){
+            $("#result").append("id " + puppy.id + "; name " + puppy.name + "; description " + puppy.description + "<br>");
+          });
+
+        },
+      });
+      return false;
+    });
+
+    // create new
+    var frm2 = $("#create-new-form")
+
+    frm2.submit(function(){
+      $.getJSON({
+        type: 'POST',
+        url: $SCRIPT_ROOT + "/api/puppies",
+        data: frm2.serialize(),
+        success: function(data){
+
+          console.log(data.puppy)
+          $("#result").text("");
+
+          $("#result").append("id " + data.puppy.id 
+            + "; name " + data.puppy.name 
+            + "; description " + data.puppy.description 
+            + "<br>");
+
+        },
+      });
+      return false;
+    });
+
+    // search one
+    $("#search-one-form").submit(function(){
+      var id = $('input[name="search-one-id"]').val();
+      $.getJSON({
+        type: 'GET',
+        url: $SCRIPT_ROOT + "/api/puppies/" + id,
+        success: function(data){
+
+          console.log(data.puppy)
+          $("#result").text("");
+
+          $("#result").append("id " + data.puppy.id 
+            + "; name " + data.puppy.name 
+            + "; description " + data.puppy.description 
+            + "<br>");
+
+        },
+      });
+      return false;
+    });
+
+    // update one
+    $("#update-one-form").submit(function(){
+      var id = $('input[name="update-one-id"]').val();
+      $.getJSON({
+        type: 'PUT',
+        url: $SCRIPT_ROOT + "/api/puppies/" + id,
+        data: {
+          name: $('input[name="update-one-name"]').val(),
+          description: $('input[name="update-one-description"]').val()
+        }, 
+        success: function(data){
+
+          console.log(data);
+
+          $("#result").text(data.message);
+        },
+      });
+      return false;
+    });
+
+    // delete one
+    $("#delete-one-form").submit(function(){
+      var id = $('input[name="delete-one-id"]').val();
+      $.getJSON({
+        type: 'DELETE',
+        url: $SCRIPT_ROOT + "/api/puppies/" + id,
+        success: function(data){
+
+          console.log(data);
+
+          $("#result").text(data.message);
+        },
+      });
+      return false;
+    });
+
+  });
+</script>
+{% endblock %}
+
+
+
 {% block content %}
     <div class="{{ name }}-container">
         <p>{{ message }}</p>
-        <form method="GET">
-            <input type="submit" name="submit" value="GET">
+        <form method="GET" id="search-all-form">
+            <input type="submit" name="submit" value="Search All">
         </form>
-        <form method="POST">
-          <input type="submit" name="submit" value="POST">
+        <br><br>
+        <form method="POST" id="create-new-form">
+            <input type="submit" name="submit" value="Create new">
+            <input type="text" name="name" value="name">
+            <input type="text" name="description" value="description">
         </form>
+        <br><br>
+        <form method="GET" id="search-one-form">
+            <input type="submit" name="submit" value="Search One">
+            <input type="text" name="search-one-id" value="id">
+        </form>
+        <br><br>
+        <form method="PUT" id="update-one-form">
+            <input type="submit" name="submit" value="Update One">
+            <input type="text" name="update-one-id" value="id">
+            <input type="text" name="update-one-name" value="name">
+            <input type="text" name="update-one-description" value="description">
+        </form>
+        <br><br>
+        <form method="DELETE" id="delete-one-form">
+            <input type="submit" name="submit" value="Delete One">
+            <input type="text" name="delete-one-id" value="id">
+        </form>
+        <br><br>
+        <div id="result"></div>
     </div>
+
 {% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
