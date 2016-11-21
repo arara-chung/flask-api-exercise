@@ -105,7 +105,7 @@ def add_numbers():
 
 
 # ----------------------
-# end points: machine learning
+# end points: machine learning / tensorflow
 # ----------------------
 
 @app.route('/ml')
@@ -119,7 +119,7 @@ def _ml_xor_get_prediction():
     input2 = request.args.get('input2', 0, type=float)
     result = predict(input1, input2)
 
-    return jsonify(result = str(result))
+    return jsonify(result = 'Result = ' + str(result))
 
 
 

@@ -38,7 +38,7 @@ def predict(input1, input2):
 
         result = prediction.eval(feed_dict=feed_dict)[0][0]
 
-        return result
+        return int(result)
 
     return None
 
