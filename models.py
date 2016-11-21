@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from sqlalchemy import Column, Integer, String
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import create_engine
@@ -23,8 +25,6 @@ class Puppy(Base):
            'name': self.name,
            'description' : self.description
         }
- 
 
-
-engine = create_engine('sqlite:///puppies.db')
+engine = create_engine('sqlite:///puppies.db', encoding='utf8')
 Base.metadata.create_all(engine)

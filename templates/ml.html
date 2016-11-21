@@ -1,0 +1,46 @@
+
+{% extends "base.html" %}
+
+
+{% block title %}{{ super() }}Tensorflow{% endblock %}
+
+
+
+{% block head_script %}
+<script type=text/javascript>
+  $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+</script>
+<script type=text/javascript>
+  $(function() {
+    $('#xor-form').submit(function() {
+      $.getJSON(
+        $SCRIPT_ROOT + '/api/xor/predict', 
+        {
+          input1: $('input[name="input1"]').val(),
+          input2: $('input[name="input2"]').val()
+        }, 
+        function(data) {
+          $("#result").text(data.result);
+      });
+      return false;
+    });
+  });
+</script>
+{% endblock %}
+
+
+{% block content %}
+
+    <div class="{{ name }}-container">
+        <p>{{ message }}</p>
+        <form method="GET" id="xor-form">
+            <input type="submit" name="submit" value="Xor Gate Prediction">
+            <input type="text" name="input1" value="0">
+            <input type="text" name="input2" value="0">
+        </form>
+        <br><br>
+        <span id=result></span>
+    </div>
+
+{% endblock %}
+

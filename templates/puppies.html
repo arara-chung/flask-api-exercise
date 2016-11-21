@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 
-{% block title %}{{ super() }}Arara{% endblock %}
+{% block title %}{{ super() }}Puppies{% endblock %}
 
 
 {% block head_script %}
@@ -29,7 +29,9 @@
 
         },
       });
+
       return false;
+
     });
 
     // create new
@@ -52,7 +54,9 @@
 
         },
       });
+
       return false;
+
     });
 
     // search one
@@ -73,7 +77,9 @@
 
         },
       });
+
       return false;
+
     });
 
     // update one
@@ -109,7 +115,9 @@
           $("#result").text(data.message);
         },
       });
+
       return false;
+      
     });
 
   });

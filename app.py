@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 # ----------------------
 # web framework
 # ----------------------
@@ -15,7 +17,7 @@ from sqlalchemy.orm import sessionmaker
 # Models
 # ----------------------
 from models import Base, Puppy
-
+from ml.xor.loader import predict
 
 
 
@@ -23,7 +25,7 @@ from models import Base, Puppy
 # app configs
 # ----------------------
 
-engine = create_engine('sqlite:///puppies.db')
+engine = create_engine('sqlite:///puppies.db', encoding='utf8')
 Base.metadata.bind = engine
 
 DBSession = sessionmaker(bind=engine)
@@ -99,7 +101,26 @@ def number_landing_page():
 def add_numbers():
     a = request.args.get('a', 0, type=int)
     b = request.args.get('b', 0, type=int)
-    return jsonify(result=a + b)
+    return jsonify(result = a + b)
+
+
+# ----------------------
+# end points: machine learning
+# ----------------------
+
+@app.route('/ml')
+def ml_landing_page():
+    return render_template("ml.html", message="Welcome to tensorflow api experiment")
+
+@app.route('/api/xor/predict')
+def _ml_xor_get_prediction():
+
+    input1 = request.args.get('input1', 0, type=float)
+    input2 = request.args.get('input2', 0, type=float)
+    result = predict(input1, input2)
+
+    return jsonify(result = str(result))
+
 
 
 
