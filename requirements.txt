@@ -24,6 +24,7 @@ gunicorn==19.6.0
 sqlalchemy
 
 
+
 # ----------------------
 # UnKnown
 # ----------------------
@@ -32,3 +33,11 @@ Jinja2
 MarkupSafe
 Werkzeug
 wheel
+
+
+
+# ----------------------
+# Others
+# ----------------------
+tensorflow
+

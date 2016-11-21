@@ -35,8 +35,6 @@ app = Flask(__name__)
 
 
 
-
-
 # ----------------------
 # end points: puppies
 # ----------------------
@@ -67,18 +65,11 @@ def puppiesFunction():
         data_jsonify = getAllPuppies()
     
     elif request.method == 'POST':
-
-        name = request.args.get('name', '')
-        description = request.args.get('description', '')
-        if not name:
-            name = request.form.get('name', '')
-        if not description:
-            description = request.form.get('description', '')
-
+        name = request.form.get('name', '')
+        description = request.form.get('description', '')
         data_jsonify = makeANewPuppy(name, description)
 
     return data_jsonify
-    #return render_template("puppies.html", message=message, data_json=data_json)
 
 
 @app.route("/api/puppies/<int:id>", methods = ['GET', 'PUT', 'DELETE'])
@@ -88,12 +79,8 @@ def puppiesFunctionId(id):
         return getPuppy(id)
 
     if request.method == 'PUT':
-        name = request.args.get('name', '', type=str)
-        description = request.args.get('description', '', type=str)
-        if not name:
-            name = request.form.get('name', '')
-        if not description:
-            description = request.form.get('description', '')
+        name = request.form.get('name', '')
+        description = request.form.get('description', '')
         return updatePuppy(id, name, description)
 
     elif request.method == 'DELETE':
