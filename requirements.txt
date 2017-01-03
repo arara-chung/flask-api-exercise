@@ -2,14 +2,14 @@
 # ----------------------
 # Framework
 # ----------------------
-Flask==0.11.1
-
+Flask==0.12
+Jinja2==2.8.1
+Werkzeug==0.11.15
 
 # ----------------------
 # Testing
 # ----------------------
 mock==2.0.0
-
 
 # ----------------------
 # Production Server
@@ -17,6 +17,12 @@ mock==2.0.0
 gevent==1.1.2
 gunicorn==19.6.0
 
+# ----------------------
+# Security and utilities
+# ----------------------
+passlib==1.7.0
+itsdangerous==0.24
+MarkupSafe==0.23
 
 # ----------------------
 # Database
@@ -26,18 +32,7 @@ sqlalchemy==1.1.4
 
 
 # ----------------------
-# UnKnown
-# ----------------------
-itsdangerous
-Jinja2
-MarkupSafe
-Werkzeug
-wheel
-
-
-
-# ----------------------
 # Others
 # ----------------------
-https://storage.googleapis.com/tensorflow/linux/cpu/tensorflow-0.11.0-cp35-cp35m-linux_x86_64.whl
-
+#https://storage.googleapis.com/tensorflow/linux/cpu/tensorflow-0.11.0-cp35-cp35m-linux_x86_64.whl
+wheel==0.30.0
