@@ -3,7 +3,7 @@
 # ----------------------
 # web framework
 # ----------------------
-from flask import Flask, request, render_template, jsonify, url_for, abort
+from flask import Flask, request, render_template, jsonify, url_for, abort, g
 from flask.ext.httpauth import HTTPBasicAuth
 
 # ----------------------
@@ -93,8 +93,16 @@ def get_user(id):
 
 @auth.verify_password
 def verify_password(username, password):
-    pass
+    user_info = user_session.query(User).filter_by(username=username).first()
+    if not user_info or user_info.verify_password(password):
+        return False
+    g.user = user_info
+    return True
 
+@app.route('/api/user_resource')
+@auth.login_required
+def get_resource():
+    return jsonify({'data': 'Hello %s', % g.user.username})
 
 # ----------------------
 # end points: puppy
