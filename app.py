@@ -15,7 +15,7 @@ from sqlalchemy.orm import sessionmaker
 # Models
 # ----------------------
 import models.puppy as puppy
-from models.puppy import Base, Puppy
+from models.puppy import Puppy
 from ml.xor.loader import predict
 
 
@@ -24,8 +24,8 @@ from ml.xor.loader import predict
 # app configs
 # ----------------------
 
-engine = create_engine('sqlite:///puppies.db', encoding='utf8')
-Base.metadata.bind = engine
+puppy_engine = create_engine('sqlite:///puppies.db', encoding='utf8')
+puppy.Base.metadata.bind = puppy_engine
 
 DBSession = sessionmaker(bind=engine)
 session = DBSession()
