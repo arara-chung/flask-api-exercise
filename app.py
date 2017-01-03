@@ -14,8 +14,8 @@ from sqlalchemy.orm import sessionmaker
 # ----------------------
 # Models
 # ----------------------
-import puppy
-from puppy import Base, Puppy
+import models.puppy
+from models.puppy import Base, Puppy
 from ml.xor.loader import predict
 
 
@@ -37,14 +37,16 @@ app = Flask(__name__)
 
 
 # ----------------------
-# end points: puppies
+# end points: home
 # ----------------------
-
 @app.route("/")
 def home():
     return render_template("home.html", name="home")
 
 
+# ----------------------
+# end points: puppy
+# ----------------------
 @app.route("/puppies", methods = ['GET', 'POST'])
 def puppies_landing_page():
 
@@ -91,7 +93,6 @@ def puppiesFunctionId(id):
 # ----------------------
 # end points: number
 # ----------------------
-
 @app.route('/number')
 def number_landing_page():
     return render_template("number.html")
@@ -104,9 +105,8 @@ def add_numbers():
 
 
 # ----------------------
-# end points: machine learning / tensorflow
+# end points: machine learning / tensorflow / xor
 # ----------------------
-
 @app.route('/ml')
 def ml_landing_page():
     return render_template("ml.html", message="Welcome to tensorflow api experiment")
@@ -119,8 +119,6 @@ def _ml_xor_get_prediction():
     result = predict(input1, input2)
 
     return jsonify(result = 'Result = ' + str(result))
-
-
 
 
 
