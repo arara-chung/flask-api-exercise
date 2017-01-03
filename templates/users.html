@@ -46,15 +46,21 @@
         <p>Usage: https://test-flask2046.herokuapp.com/api/users </p>
         <p>Usage: https://test-flask2046.herokuapp.com/api/users/31 </p>
         <form method="POST" id="create-new-form">
-            <input type="submit" name="submit" value="Create new">
+            <input type="submit" value="Create new">
             <input type="text" name="username" placeholder="name">
             <input type="password" name="password" placeholder="password">
         </form>
+        <br><br>
+        {% if not session.logged_in %}
+        <form method="POST" id="login-form">
+            <input type="submit" value="Login">
+        </form>
+        {% else %}
     </div>
 
     <div id="result">
         {% if users %}
-            {% for user in users%}
+            {% for user in data.users%}
                 {{user}}<br>
             {% endfor %}
         {% endif %}

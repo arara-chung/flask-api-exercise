@@ -59,7 +59,7 @@ def user_landing_page():
     return render_template("users.html", 
         name="home",
         message="welcome to my user landing page",
-        users=users_jsonified)
+        data=users_jsonified)
 
 @app.route("/api/users", methods = ['POST'])
 def create_user():
