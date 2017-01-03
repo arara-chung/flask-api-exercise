@@ -61,6 +61,10 @@ def user_landing_page():
 def create_user():
     username = request.json.get('username')
     password = request.json.get('password')
+
+    print(username)
+    print(password)
+
     if username is None or password is None:
         abort(400) # missing args
     if user_session.query(User).filter_by(username=username).first() is not None:

@@ -1,6 +1,6 @@
+# -*- coding: utf-8 -*-
 from sqlalchemy import Column, Integer, String
 from sqlalchemy.ext.declarative import declarative_base
-#from sqlalchemy.orm import relationship, sessionmaker
 from sqlalchemy import create_engine
 from passlib.apps import custom_app_context as pwd_context
 
@@ -15,20 +15,22 @@ class User(Base):
 	username = Column(String(32), index=True)
 	password_hash = Column(String(64))
 
+	# define query response: equivalent to getter setter
+    @property
+    def serialize(self):
+        """Return object data in easily serializeable format"""
+        return {
+       	   'id': self.id,
+           'username': self.username
+        }
+
 	def hash_password(self, password):
 		self.password_hash = pwd_context.encrypt(password)
 
 	def verify_password(self, password):
 		return pwd_context.verify(password, self.password_hash)
 
-	# define query response
-    @property
-    def serialize(self):
-        """Return object data in easily serializeable format"""
-        return {
-       	   'id': self.id,
-           'username': self.username,
-        }
+
 
 engine = create_engine('sqlite:///users.db')
 

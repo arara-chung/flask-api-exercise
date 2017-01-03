@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
-from flask import jsonify
-
 from sqlalchemy import Column, Integer, String
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import create_engine
+from flask import jsonify
 
 Base = declarative_base()
 
@@ -17,7 +16,7 @@ class Puppy(Base):
     id = Column(Integer, primary_key = True)
     description = Column(String(250))
 
-    # define query response
+    # define query response: equivalent to getter setter
     @property
     def serialize(self):
         """Return object data in easily serializeable format"""
