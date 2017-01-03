@@ -59,8 +59,10 @@ def user_landing_page():
 
 @app.route("/api/users", methods = ['POST'])
 def create_user():
-    username = request.json.get('username')
-    password = request.json.get('password')
+    #username = request.json.get('username')
+    #password = request.json.get('password')
+    username = request.form.get('username')
+    password = request.form.get('password')
 
     print(username)
     print(password)
