@@ -14,7 +14,7 @@ from sqlalchemy.orm import sessionmaker
 # ----------------------
 # Models
 # ----------------------
-import models.puppy
+import models.puppy as puppy
 from models.puppy import Base, Puppy
 from ml.xor.loader import predict
 
