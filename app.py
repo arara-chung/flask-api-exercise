@@ -93,6 +93,7 @@ def get_user(id):
 
 @auth.verify_password
 def verify_password(username, password):
+    pass
 
 
 # ----------------------
