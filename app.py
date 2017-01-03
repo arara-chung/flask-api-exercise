@@ -102,7 +102,7 @@ def verify_password(username, password):
 @app.route('/api/user_resource')
 @auth.login_required
 def get_resource():
-    return jsonify({'data': 'Hello %s', % g.user.username})
+    return jsonify({'data': 'Hello %s' % g.user.username})
 
 # ----------------------
 # end points: puppy
