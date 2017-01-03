@@ -23,6 +23,7 @@ gunicorn==19.6.0
 passlib==1.7.0
 itsdangerous==0.24
 MarkupSafe==0.23
+flask-httpauth==3.2.1
 
 # ----------------------
 # Database
