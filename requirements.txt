@@ -34,5 +34,5 @@ sqlalchemy==1.1.4
 # ----------------------
 # Others
 # ----------------------
-#https://storage.googleapis.com/tensorflow/linux/cpu/tensorflow-0.11.0-cp35-cp35m-linux_x86_64.whl
-wheel==0.30.0
+wheel
+https://storage.googleapis.com/tensorflow/linux/cpu/tensorflow-0.11.0-cp35-cp35m-linux_x86_64.whl
