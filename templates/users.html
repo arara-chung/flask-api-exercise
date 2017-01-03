@@ -54,5 +54,14 @@
 
     <div id="result"></div>
 
+
+  {% if not session.logged_in %}
+    <p>you are not logged in</p>
+  {% else %}
+    <!-- a href="{{ url_for('logout') }}">log out</a -->
+    <p>you are logged in</p>
+  {% endif %}
+
+
 {% endblock %}
 
