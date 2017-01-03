@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+
+{% block title %}{{ super() }}Puppies{% endblock %}
+
+
+{% block head_script %}
+<script type=text/javascript>
+  // get the root path on server
+  $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+</script>
+{% endblock $}
+
+
+    <div class="{{ name }}-container">
+        <p>{{ message }}</p>
+        <p>Usage: https://test-flask2046.herokuapp.com/api/users </p>
+        <p>Usage: https://test-flask2046.herokuapp.com/api/users/31 </p>
+    </div>
+
+{% if session.logged_in %}
+<p>show me if logged in</p>
+{% else %}
+<p>show me if not logged in</p>
+{% endif %}
+
+
+{% endblock %}
+
