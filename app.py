@@ -56,6 +56,8 @@ def user_landing_page():
 
     users_jsonified = user.get_all_users(user_session)
 
+    print(users_jsonified)
+
     return render_template("users.html", 
         name="home",
         message="welcome to my user landing page",

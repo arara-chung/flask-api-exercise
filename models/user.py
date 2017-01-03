@@ -44,5 +44,7 @@ Base.metadata.create_all(engine)
 # ----------------------
 def get_all_users(session):
     users = session.query(User).all()
+    for user in users:
+        print(users)
     return jsonify(users=[user.serialize for user in users])
 
