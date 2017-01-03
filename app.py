@@ -51,11 +51,11 @@ def home():
 # ----------------------
 # end points: user
 # ----------------------
-@app.route("/users", method = ['GET']):
+@app.route("/users", method = ['GET'])
 def user_landing_page():
     return "user landing page"
 
-@app.route("/api/users", method = ['POST']):
+@app.route("/api/users", method = ['POST'])
 def user_landing_page():
     username = request.json.get('username')
     password = request.json.get('password')
