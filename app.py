@@ -3,8 +3,7 @@
 # ----------------------
 # web framework
 # ----------------------
-from flask import Flask, request, render_template, jsonify, json
-
+from flask import Flask, request, render_template, jsonify
 
 # ----------------------
 # DB
@@ -12,11 +11,11 @@ from flask import Flask, request, render_template, jsonify, json
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-
 # ----------------------
 # Models
 # ----------------------
-from models import Base, Puppy
+import puppy
+from puppy import Base, Puppy
 from ml.xor.loader import predict
 
 
@@ -64,12 +63,12 @@ def puppiesFunction():
     data_jsonify = None
 
     if request.method == 'GET':
-        data_jsonify = getAllPuppies()
+        data_jsonify = puppy.getAllPuppies(session)
     
     elif request.method == 'POST':
         name = request.form.get('name', '')
         description = request.form.get('description', '')
-        data_jsonify = makeANewPuppy(name, description)
+        data_jsonify = puppy.makeANewPuppy(name, description, session)
 
     return data_jsonify
 
@@ -78,15 +77,15 @@ def puppiesFunction():
 def puppiesFunctionId(id):
 
     if request.method == 'GET':
-        return getPuppy(id)
+        return puppy.getPuppy(id, session)
 
     if request.method == 'PUT':
         name = request.form.get('name', '')
         description = request.form.get('description', '')
-        return updatePuppy(id, name, description)
+        return puppy.updatePuppy(id, name, description, session)
 
     elif request.method == 'DELETE':
-        return deletePuppy(id) 
+        return puppy.deletePuppy(id, session) 
 
 
 # ----------------------
@@ -124,46 +123,6 @@ def _ml_xor_get_prediction():
 
 
 
-
-
-# ----------------------
-# Puppy methods: get, make, put, delete 
-# ----------------------
-
-def getAllPuppies():
-    puppies = session.query(Puppy).all()
-    return jsonify(puppies=[i.serialize for i in puppies])
-  
-def makeANewPuppy(name, description):
-    puppy = Puppy(name=name, description=description)
-    session.add(puppy)
-    session.commit()
-    return jsonify(puppy=puppy.serialize) 
-
-def getPuppy(id):
-    puppy = session.query(Puppy).filter_by(id=id).one()
-    return jsonify(puppy=puppy.serialize)
-  
-def updatePuppy(id, name, description):
-    puppy = session.query(Puppy).filter_by(id=id).one()
-
-    if name:
-        puppy.name = name
-    if description:
-        puppy.description = description
-
-    session.add(puppy)
-    session.commit()
-
-    return jsonify(message="Updating a Puppy with id %s" % id) 
-
-def deletePuppy(id):
-    puppy = session.query(Puppy).filter_by(id=id).one()
-
-    session.delete(puppy)
-    session.commit()
-
-    return jsonify(message="Removing Puppy with id %s" % id)
 
 
 
