@@ -3,7 +3,7 @@
 # ----------------------
 # web framework
 # ----------------------
-from flask import Flask, request, render_template, jsonify
+from flask import Flask, request, render_template, jsonify, url_for, abort
 
 # ----------------------
 # DB
@@ -16,23 +16,28 @@ from sqlalchemy.orm import sessionmaker
 # ----------------------
 import models.puppy as puppy
 from models.puppy import Puppy
+import models.user as user
+from models.user import User
+
 from ml.xor.loader import predict
 
 
 
 # ----------------------
-# app configs
+# app and DB configs
 # ----------------------
 
 puppy_engine = create_engine('sqlite:///puppies.db', encoding='utf8')
 puppy.Base.metadata.bind = puppy_engine
+puppy_DBSession = sessionmaker(bind=puppy_engine)
+puppy_session = DBSession()
 
-DBSession = sessionmaker(bind=puppy_engine)
-session = DBSession()
+user_engine = create_engine('sqlite:///puppies.db')
+user.Base.metadata.bind = user_engine
+user_DBSession = sessionmaker(bind=user_engine)
+user_session = user_DBSession()
 
 app = Flask(__name__)
-
-
 
 
 
@@ -42,6 +47,35 @@ app = Flask(__name__)
 @app.route("/")
 def home():
     return render_template("home.html", name="home")
+
+# ----------------------
+# end points: user
+# ----------------------
+@app.route("/users", method = ['GET']):
+def user_landing_page():
+    return "user landing page"
+
+@app.route("/api/users", method = ['POST']):
+def user_landing_page():
+    username = request.json.get('username')
+    password = request.json.get('password')
+    if username is None or password is None:
+        abort(400) # missing args
+    if user_session.query(User).filter_by(username=username).first() is not None:
+        abort(400) # existing user
+    user = User(username = username)
+    user.hash_password(password)
+    user_session.add(user)
+    user_session.commit()
+    return jsonify({'username':user.username}), 201, {'Location': url_for('get_user', id=user.id, _external = True)}
+
+@app.route('/api/users/<int:id>')
+def get_user(id):
+    user = session.query(User).filter_by(id=id).one()
+    if not user:
+        abort(400)
+    return jsonify({'username':user.username})
+
 
 
 # ----------------------
@@ -65,12 +99,12 @@ def puppiesFunction():
     data_jsonify = None
 
     if request.method == 'GET':
-        data_jsonify = puppy.getAllPuppies(session)
+        data_jsonify = puppy.getAllPuppies(puppy_session)
     
     elif request.method == 'POST':
         name = request.form.get('name', '')
         description = request.form.get('description', '')
-        data_jsonify = puppy.makeANewPuppy(name, description, session)
+        data_jsonify = puppy.makeANewPuppy(name, description, puppy_session)
 
     return data_jsonify
 
@@ -79,15 +113,15 @@ def puppiesFunction():
 def puppiesFunctionId(id):
 
     if request.method == 'GET':
-        return puppy.getPuppy(id, session)
+        return puppy.getPuppy(id, puppy_session)
 
     if request.method == 'PUT':
         name = request.form.get('name', '')
         description = request.form.get('description', '')
-        return puppy.updatePuppy(id, name, description, session)
+        return puppy.updatePuppy(id, name, description, puppy_session)
 
     elif request.method == 'DELETE':
-        return puppy.deletePuppy(id, session) 
+        return puppy.deletePuppy(id, puppy_session) 
 
 
 # ----------------------
