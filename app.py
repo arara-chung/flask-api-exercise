@@ -56,7 +56,7 @@ def user_landing_page():
     return "user landing page"
 
 @app.route("/api/users", methods = ['POST'])
-def user_landing_page():
+def create_user():
     username = request.json.get('username')
     password = request.json.get('password')
     if username is None or password is None:
