@@ -54,8 +54,7 @@ def home():
 @app.route("/users", methods = ['GET'])
 def user_landing_page():
     return render_template("users.html", 
-        name="home",
-        message="welcome to my user landing page")
+        name="home")
 
 @app.route("/api/users", methods = ['POST'])
 def create_user():
