@@ -20,8 +20,8 @@ class User(Base):
     def serialize(self):
         """Return object data in easily serializeable format"""
         return {
-       	   'id': self.id,
-           'username': self.username
+            'id': self.id,
+            'username': self.username
         }
 
 	def hash_password(self, password):
