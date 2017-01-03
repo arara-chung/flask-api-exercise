@@ -4,6 +4,8 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import create_engine
 from passlib.apps import custom_app_context as pwd_context
 
+from flask import jsonify
+
 Base = declarative_base()
 class User(Base):
 
@@ -25,7 +27,7 @@ class User(Base):
         }
 
     def hash_password(self, password):
-        self.password_hash = pwd_context.encrypt(password)
+        self.password_hash = pwd_context.hash(password)
 
     def verify_password(self, password):
         return pwd_context.verify(password, self.password_hash)
@@ -35,3 +37,12 @@ class User(Base):
 engine = create_engine('sqlite:///users.db')
 
 Base.metadata.create_all(engine)
+
+
+# ----------------------
+# User methods: get, make, put, delete 
+# ----------------------
+def get_all_users(session):
+    users = session.query(User).all()
+    return jsonify(users=[user.serialize for user in users])
+

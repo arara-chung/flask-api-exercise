@@ -53,9 +53,13 @@ def home():
 # ----------------------
 @app.route("/users", methods = ['GET'])
 def user_landing_page():
+
+    users_jsonified = user.get_all_users(user_session)
+
     return render_template("users.html", 
         name="home",
-        message="welcome to my user landing page")
+        message="welcome to my user landing page",
+        users=users_jsonified)
 
 @app.route("/api/users", methods = ['POST'])
 def create_user():
@@ -78,7 +82,7 @@ def create_user():
 
 @app.route('/api/users/<int:id>')
 def get_user(id):
-    user = session.query(User).filter_by(id=id).one()
+    user = user_session.query(User).filter_by(id=id).one()
     if not user:
         abort(400)
     return jsonify({'username':user.username})
@@ -106,12 +110,12 @@ def puppiesFunction():
     data_jsonify = None
 
     if request.method == 'GET':
-        data_jsonify = puppy.getAllPuppies(puppy_session)
+        data_jsonify = puppy.get_all_puppies(puppy_session)
     
     elif request.method == 'POST':
         name = request.form.get('name', '')
         description = request.form.get('description', '')
-        data_jsonify = puppy.makeANewPuppy(name, description, puppy_session)
+        data_jsonify = puppy.create_puppy(name, description, puppy_session)
 
     return data_jsonify
 
@@ -120,15 +124,15 @@ def puppiesFunction():
 def puppiesFunctionId(id):
 
     if request.method == 'GET':
-        return puppy.getPuppy(id, puppy_session)
+        return puppy.get_puppy(id, puppy_session)
 
     if request.method == 'PUT':
         name = request.form.get('name', '')
         description = request.form.get('description', '')
-        return puppy.updatePuppy(id, name, description, puppy_session)
+        return puppy.update_puppy(id, name, description, puppy_session)
 
     elif request.method == 'DELETE':
-        return puppy.deletePuppy(id, puppy_session) 
+        return puppy.delete_puppy(id, puppy_session) 
 
 
 # ----------------------

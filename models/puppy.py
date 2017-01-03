@@ -35,21 +35,21 @@ Base.metadata.create_all(engine)
 # Puppy methods: get, make, put, delete 
 # ----------------------
 
-def getAllPuppies(session):
+def get_all_puppies(session):
     puppies = session.query(Puppy).all()
     return jsonify(puppies=[i.serialize for i in puppies])
   
-def makeANewPuppy(name, description, session):
+def create_puppy(name, description, session):
     puppy = Puppy(name=name, description=description)
     session.add(puppy)
     session.commit()
     return jsonify(puppy=puppy.serialize) 
 
-def getPuppy(id, session):
+def get_puppy(id, session):
     puppy = session.query(Puppy).filter_by(id=id).one()
     return jsonify(puppy=puppy.serialize)
   
-def updatePuppy(id, name, description, session):
+def update_puppy(id, name, description, session):
     puppy = session.query(Puppy).filter_by(id=id).one()
 
     if name:
@@ -62,7 +62,7 @@ def updatePuppy(id, name, description, session):
 
     return jsonify(message="Updating a Puppy with id %s" % id) 
 
-def deletePuppy(id, session):
+def delete_puppy(id, session):
     puppy = session.query(Puppy).filter_by(id=id).one()
 
     session.delete(puppy)
