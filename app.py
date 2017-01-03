@@ -61,13 +61,10 @@ def user_landing_page():
 def create_user():
     #username = request.json.get('username')
     #password = request.json.get('password')
-    username = request.args.get('username')
-    password = request.args.get('password')
-    #username = request.form.get('username')
-    #password = request.form.get('password')
-
-    print(username)
-    print(password)
+    #username = request.args.get('username')
+    #password = request.args.get('password')
+    username = request.form.get('username')
+    password = request.form.get('password')
 
     if username is None or password is None:
         abort(400) # missing args
