@@ -4,6 +4,9 @@ env
 include
 lib
 
+# jupyter notebook
+.ipynb
+
 # Python Packages
 *.egg
 *.egg-info
