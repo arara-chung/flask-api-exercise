@@ -21,6 +21,15 @@ class User(Base):
 	def verify_password(self, password):
 		return pwd_context.verify(password, self.password_hash)
 
+	# define query response
+    @property
+    def serialize(self):
+        """Return object data in easily serializeable format"""
+        return {
+       	   'id': self.id,
+           'username': self.username,
+        }
+
 engine = create_engine('sqlite:///users.db')
 
 Base.metadata.create_all(engine)

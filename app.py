@@ -69,7 +69,7 @@ def create_user():
     user.hash_password(password)
     user_session.add(user)
     user_session.commit()
-    return jsonify({'username':user.username}), 201, {'Location': url_for('get_user', id=user.id, _external = True)}
+    return jsonify(user=user.serialize), 201, {'Location': url_for('get_user', id=user.id, _external = True)}
 
 @app.route('/api/users/<int:id>')
 def get_user(id):

@@ -5,10 +5,37 @@
 
 
 {% block head_script %}
-	<script type=text/javascript>
-	  // get the root path on server
-	  $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
-	</script>
+<script type=text/javascript>
+	// get the root path on server
+	$SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+</script>
+
+<script type=text/javascript>
+  $(function(){
+    // create new user
+    var frm2 = $("#create-new-form")
+
+    frm2.submit(function(){
+      $.getJSON({
+        type: 'POST',
+        url: $SCRIPT_ROOT + "/api/users",
+        data: frm2.serialize(),
+        success: function(data){
+
+          console.log(data)
+          $("#result").text("");
+
+          $("#result").append("Successfully create user: "
+          	+ "id " + data.user.id 
+            + "; name " + data.user.username 
+            + "<br>");
+        },
+      });
+
+      return false;
+
+    });
+</script>
 {% endblock %}
 
 {% block content %}
@@ -17,16 +44,24 @@
         <p>{{ message }}</p>
         <p>Usage: https://test-flask2046.herokuapp.com/api/users </p>
         <p>Usage: https://test-flask2046.herokuapp.com/api/users/31 </p>
+        <form method="POST" id="create-new-form">
+            <input type="submit" name="submit" value="Create new">
+            <input type="text" name="name" placeholder="name">
+            <input type="password" name="password" placeholder="password">
+        </form>
     </div>
+
+    <div id="result"></div>
 
 
 <!--{% if user.is_authenticated %}-->
-<!--{% if session.logged_in %}-->
+<!--{% if session.logged_in %}
 	{% if current_user.is_authenticated %}
 	<p>show me if logged in</p>
 	{% else %}
 	<p>show me if not logged in</p>
 	{% endif %}
+-->
 
 {% endblock %}
 
