@@ -12,7 +12,7 @@
 <script type=text/javascript>
   $(function(){
 
-    // search all
+    // search all puppies
     $("#search-all-form").submit(function(){
       $.getJSON({
         type: 'GET',
@@ -24,9 +24,11 @@
           $("#result").text("");
 
           $.each(data.puppies, function(index, puppy){
-            $("#result").append("id " + puppy.id + "; name " + puppy.name + "; description " + puppy.description + "<br>");
+            $("#result").append("id " + puppy.id 
+              + "; name " + puppy.name 
+              + "; description " + puppy.description 
+              + "<br>");
           });
-
         },
       });
 
@@ -34,7 +36,7 @@
 
     });
 
-    // create new
+    // create new puppy
     var frm2 = $("#create-new-form")
 
     frm2.submit(function(){
@@ -59,7 +61,7 @@
 
     });
 
-    // search one
+    // search one puppy
     $("#search-one-form").submit(function(){
       var id = $('input[name="search-one-id"]').val();
       $.getJSON({
@@ -82,7 +84,7 @@
 
     });
 
-    // update one
+    // update one puppy
     $("#update-one-form").submit(function(){
       var id = $('input[name="update-one-id"]').val();
       $.getJSON({
@@ -102,7 +104,7 @@
       return false;
     });
 
-    // delete one
+    // delete one puppy
     $("#delete-one-form").submit(function(){
       var id = $('input[name="delete-one-id"]').val();
       $.getJSON({
