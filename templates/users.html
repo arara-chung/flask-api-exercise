@@ -52,7 +52,13 @@
         </form>
     </div>
 
-    <div id="result"></div>
+    <div id="result">
+        {% if users %}
+            {% for user in users%}
+                {{user}}<br>
+            {% endfor %}
+        {% endif %}
+    </div>
 
 <br><br>
   {% if not session.logged_in %}
