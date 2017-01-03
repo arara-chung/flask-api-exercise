@@ -27,7 +27,7 @@ from ml.xor.loader import predict
 puppy_engine = create_engine('sqlite:///puppies.db', encoding='utf8')
 puppy.Base.metadata.bind = puppy_engine
 
-DBSession = sessionmaker(bind=engine)
+DBSession = sessionmaker(bind=puppy_engine)
 session = DBSession()
 
 app = Flask(__name__)
