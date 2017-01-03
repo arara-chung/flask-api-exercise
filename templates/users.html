@@ -1,16 +1,17 @@
 {% extends "base.html" %}
 
 
-{% block title %}{{ super() }}Puppies{% endblock %}
+{% block title %}{{super()}}Users{% endblock %}
 
 
 {% block head_script %}
-<script type=text/javascript>
-  // get the root path on server
-  $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
-</script>
+	<script type=text/javascript>
+	  // get the root path on server
+	  $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+	</script>
 {% endblock %}
 
+{% block content %}
 
     <div class="{{ name }}-container">
         <p>{{ message }}</p>
@@ -19,12 +20,11 @@
     </div>
 
 <!--{% if user.is_authenticated %}-->
-{% if session.logged_in %}
-<p>show me if logged in</p>
-{% else %}
-<p>show me if not logged in</p>
-{% endif %}
-
+	{% if session.logged_in %}
+	<p>show me if logged in</p>
+	{% else %}
+	<p>show me if not logged in</p>
+	{% endif %}
 
 {% endblock %}
 
