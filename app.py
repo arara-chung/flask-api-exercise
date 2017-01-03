@@ -4,6 +4,7 @@
 # web framework
 # ----------------------
 from flask import Flask, request, render_template, jsonify, url_for, abort
+from flask.ext.httpauth import HTTPBasicAuth
 
 # ----------------------
 # DB
@@ -38,6 +39,7 @@ user_DBSession = sessionmaker(bind=user_engine)
 user_session = user_DBSession()
 
 app = Flask(__name__)
+auth = HTTPBasicAuth()
 
 
 
@@ -76,11 +78,11 @@ def create_user():
         abort(400) # missing args
     if user_session.query(User).filter_by(username=username).first() is not None:
         abort(400) # existing user
-    user = User(username = username)
-    user.hash_password(password)
-    user_session.add(user)
+    user_info = User(username = username)
+    user_info.hash_password(password)
+    user_session.add(user_info)
     user_session.commit()
-    return jsonify(user=user.serialize), 201, {'Location': url_for('get_user', id=user.id, _external = True)}
+    return jsonify(user=user_info.serialize), 201, {'Location': url_for('get_user', id=user_info.id, _external = True)}
 
 @app.route('/api/users/<int:id>')
 def get_user(id):
@@ -89,6 +91,8 @@ def get_user(id):
         abort(400)
     return jsonify({'username':user.username})
 
+@auth.verify_password
+def verify_password(username, password):
 
 
 # ----------------------
