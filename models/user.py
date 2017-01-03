@@ -8,7 +8,7 @@ Base = declarative_base()
 class User(Base):
 
     # define tables
-    __tablename__ = 'my_user'
+    __tablename__ = 'user'
 
     # define columns
     id = Column(Integer, primary_key=True)

@@ -32,7 +32,7 @@ puppy.Base.metadata.bind = puppy_engine
 puppy_DBSession = sessionmaker(bind=puppy_engine)
 puppy_session = puppy_DBSession()
 
-user_engine = create_engine('sqlite:///puppies.db')
+user_engine = create_engine('sqlite:///users.db')
 user.Base.metadata.bind = user_engine
 user_DBSession = sessionmaker(bind=user_engine)
 user_session = user_DBSession()
